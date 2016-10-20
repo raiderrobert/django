@@ -385,9 +385,6 @@ class ResolverTests(SimpleTestCase):
         # 2 argument test
         self.assertEqual(resolver.reverse('name-conflict', 'arg', 'arg'), 'conflict/arg/arg/')
 
-        # 3 argument test
-        self.assertEqual(resolver.reverse('name-conflict', 'arg', 'arg', 'arg'), 'conflict/arg/arg/')
-
     def test_non_regex(self):
         """
         Verifies that we raise a Resolver404 if what we are resolving doesn't
