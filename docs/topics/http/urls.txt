@@ -597,33 +597,21 @@ In order to perform URL reversing, you'll need to use **named URL patterns**
 as done in the examples above. The string used for the URL name can contain any
 characters you like. You are not restricted to valid Python names.
 
-First, when you name your own URL patterns, make sure you use names that are
-unlikely to clash with any other application's choice of names. If you call
-your URL pattern ``comment``, and another application does the same thing,
-there's no guarantee which URL will be inserted into your template when you
-use this name, it will depend on the order of .
+When you name your URL patterns, whatever you choose need not be unique. Indeed,
+name collisions can sometimes be useful. For instance, you may want to
+deliberately override some built-in :ref:`views <built-in-auth-views>`, such as
+``login``, as many packages in the ecosystem also use that same name in order to
+route to the :class:`~django.contrib.auth.views.LoginView`.
 
-Putting a prefix on your URL names, perhaps derived from the application
-name, will decrease the chances of collision. We recommend something like
-``myapp-comment`` instead of ``comment``.
+In order to achieve the desired effect, you match the number of arguments and,
+if they are keyword arguments, you must match their names for the original pattern,
+and you must place your route ``after`` the pattern you're overriding.
 
-Second, you can deliberately use the *same name* as used in another (built-in)
-application. A common usage is to override the built-in login view
-(:class:`~django.contrib.auth.views.LoginView`). Django gives that view a URL
-pattern with the name ``login``. If you have a custom login view and give its
-URL the name ``login``, most login actions in other applications will
-automatically use your custom view.
-
-Third, you can use the same name for multiple URL patterns if they differ
-regarding (keyword) arguments. When looking up URL patterns by name, django
-makes sure the number of arguments and the names of the keyword arguments
-match.
-
-A note on order. URL patterns are matched from the top down: the first pattern
-to match is used. URL pattern names are looked up in reverse order: from the
-bottom to the top. So a named url further down in your URL conf wins from one
-defined earlier. All URLs in your URL conf come before any included URLs,
-though.
+Care must be taken, though, that you do this only on purpose. So generally, it's
+recommended that you avoid this pattern by putting a prefix on your URL names,
+perhaps derived from the application name, as this will decrease the chances of
+accidental collision. For this reason, we recommend something more verbose
+like ``myapp-comment`` instead of ``comment``.
 
 .. _topics-http-defining-url-namespaces:
 

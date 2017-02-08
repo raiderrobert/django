@@ -372,14 +372,17 @@ class ResolverTests(SimpleTestCase):
         """
         resolver = get_resolver('urlpatterns_reverse.named_urls_conflict')
 
+        # no argument test
         self.assertEqual(resolver.reverse('name-conflict'), 'conflict/')
 
+        # 1 argument tests
         self.assertEqual(resolver.reverse('name-conflict', 'arg'), 'conflict-last/arg/')
         self.assertEqual(resolver.reverse('name-conflict', first='arg'), 'conflict-first/arg/')
         self.assertEqual(resolver.reverse('name-conflict', middle='arg'), 'conflict-middle/arg/')
         self.assertNotEqual(resolver.reverse('name-conflict', middle='arg'), 'conflict-cannot-go-here/arg/')
         self.assertEqual(resolver.reverse('name-conflict', last='arg'), 'conflict-last/arg/')
 
+        # 2 argument test
         self.assertEqual(resolver.reverse('name-conflict', 'arg', 'arg'), 'conflict/arg/arg/')
 
     def test_non_regex(self):
